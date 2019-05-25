@@ -7,7 +7,7 @@ import java.util.List;
 import model.entities.Cliente;
 import model.entities.Item;
 
-public class Carrinho implements ICarrinho {
+public class Carrinho implements IRepositorioItem {
 	private Cliente cliente;
 	private Date dataPedido;
 	private List<Item> listaItem;
@@ -23,10 +23,7 @@ public class Carrinho implements ICarrinho {
 		listaItem = new ArrayList<>();
 	}
 	
-	public Carrinho(Cliente cliente, Date dataPedido) {
-		this.cliente = cliente;
-		this.dataPedido = dataPedido;
-	}
+	
 
 	public Cliente getCliente() {
 		return cliente;
@@ -42,10 +39,6 @@ public class Carrinho implements ICarrinho {
 		this.dataPedido = dataPedido;
 	}
 
-	
-	public List<Item> getListaItem() {
-		return listaItem;
-	}
 	public void setListaItem(List<Item> listaItem) {
 		this.listaItem = listaItem;
 	}
@@ -55,15 +48,41 @@ public class Carrinho implements ICarrinho {
 	}
 	
 	@Override
-	public void removeItem (Item item, int qtd) {
-		if (qtd == 0) {
+	public void removeItem (Item item) {	
 		listaItem.remove(item);
-		}
-		else {
-			item.setQuantidade(item.getQuantidade() - qtd);
-		}
 	}
 	
+	@Override
+	public Item mostrarItem(int position) {
+		for (Item i : listaItem) {
+			if (i.getCodigo() == position) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean existeItem(Item i) {
+		for (Item item : listaItem) {
+			if (item.getProduto().equals(i.getProduto())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	@Override
+	public List<Item> listarItens() {
+		return listaItem;
+	}
+	@Override
+	public void alterarQuantidade(Item item, int qtd) {
+		item.setQuantidade(qtd);
+	}
+	@Override
+	public void esvaziarCarrinho() {
+			instancia = new Carrinho();
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -74,5 +93,10 @@ public class Carrinho implements ICarrinho {
 		sb.append(dataPedido);
 		return sb.toString();
 	}
+	@Override
+	public void incrementarItem(Item i, int qtd) {
+		i.setQuantidade(i.getQuantidade()+qtd);
+	}
+	
 	
 }

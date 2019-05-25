@@ -64,13 +64,14 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "#"
-				+codigo
-				+" "
-				+nome
+		return 	nome
 				+"\n"
 				+"Quantidade em estoque: "
-				+quantidade;
+				+quantidade
+				+"\nCategoria: "
+				+categoria
+				+"\nFornecedor: "
+				+fornecedor.getNome();
 				
 	}
 	

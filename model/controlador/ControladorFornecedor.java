@@ -34,11 +34,11 @@ public class ControladorFornecedor implements IControladorFornecedor{
 	}
 	
 	@Override
-	public boolean existeFornecedor(String cnpj) {
-		if (repositorioFornecedor.existeFornecedor(cnpj)) {
-			return true;
+	public boolean existeFornecedor(String cnpj) throws CnpjException {
+		if (!repositorioFornecedor.existeFornecedor(cnpj)) {
+			throw new CnpjException("Cnpj não encontrado, cadastrar novo fornecedor");
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -59,9 +59,9 @@ public class ControladorFornecedor implements IControladorFornecedor{
 	}
 
 	@Override
-	public List<Fornecedor> listarFornecedor() throws CnpjException {
-		if (repositorioFornecedor.listarFornecedor() == null) {
-			throw new CnpjException("Cnpj não encontrado, cadastrar novo fornecedor");
+	public List<Fornecedor> listarFornecedor() throws NenhumException {
+		if (repositorioFornecedor.listarFornecedor().isEmpty()) {
+			throw new NenhumException("Lista vazia!");
 		}
 		
 		return repositorioFornecedor.listarFornecedor();

@@ -101,10 +101,13 @@ public class UIProduto {
 				} catch (ExisteException e) {
 					System.out.println(e.getMessage());
 				}
+				catch (CnpjException ex) {
+					System.out.println(ex.getMessage());		
 			}
 
-		} catch (CnpjException ex) {
-			System.out.println(ex.getMessage());
+		} 
+		} catch (NenhumException e) {
+			System.out.println(e.getMessage());
 		}
 
 	}

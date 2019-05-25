@@ -1,14 +1,13 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 import controlador.Fachada;
+import excecoes.ExisteException;
 import excecoes.NenhumException;
+import excecoes.QuantidadeException;
 import model.entities.Cliente;
 import model.entities.Item;
 import model.entities.Produto;
@@ -76,18 +75,37 @@ public class UICompras {
 		Produto[] relacionados = new Produto[3];
 		for (Carrinho c : fachada.listarCarrinhos()) {
 			for (int i = 0; i < fachada.listarCarrinhos().size(); i++) {
-			if (c.getListaItem().get(i).getProduto().equals(p)) {
+			if (c.listarItens().get(i).getProduto().equals(p)) {
 				relacionados[aux] = p;
 				aux++;
+				if (aux == 2) {
+					break;
+				}
 			}
 		}
 		int op = s.nextInt();
 		switch (op) {
 		case 1:
-			System.out.print("Quantidade :");
-			int qtd = s.nextInt();
-			Item i = new Item((carrinho.getListaItem().size()+1),qtd, p);
-			carrinho.addItem(i);
+			try {
+				System.out.print("Quantidade :");
+				int qtd = s.nextInt();
+				Item i = new Item((carrinho.listarItens().size()+1), qtd, p);
+				
+				if (fachada.existeItem(i)) {
+					fachada.incrementarItem(i, qtd);	
+				}
+				else {
+					fachada.addItem(i);
+				}
+			}
+			catch (ExisteException e) {
+				System.out.println(e.getMessage());
+				
+			} catch (QuantidadeException e) {
+				System.out.println(e.getMessage());
+			}
+		
+			exibirCarrinho();
 			break;
 		case 2:
 			exibirMenu();
@@ -98,22 +116,33 @@ public class UICompras {
 	}
 	
 	public static void exibirCarrinho() {
-		for (Item i : carrinho.getListaItem()) {
-			System.out.println(i);
+		
+		try {
+			for (Item i : fachada.listarItens()) {
+				System.out.println(i);
+			}
+		} catch (NenhumException e) {
+			System.out.println(e.getMessage());
 		}
-		System.out.println("1 - Continuar compra");
-		System.out.println("2 - Finalizar compra");
+		System.out.println("Selecione o código do item para alterar a quantidade ou");
+		System.out.println("0 - Continuar compra");
+		System.out.println("-1 - Finalizar compra");
 		int op = s.nextInt();
-		if (op == 1) {
+		if (op == 0) {
 			exibirMenu();
 		}
-		else if (op == 2) {
+		else if (op == -1) {
 			finalizarCompra();	
-		}
-		else {
-			System.out.println("Opção inválida!");
-			return;
-		}
+		} else
+			try {
+				if (op == fachada.mostrarItem(op).getCodigo()) {
+					exibirProduto(fachada.mostrarItem(op).getProduto());
+				}
+
+			} catch (NenhumException e) {
+				System.out.println(e.getMessage());
+				return;
+			}
 	}
 	
 	public static void pesquisarProduto() {
@@ -122,10 +151,11 @@ public class UICompras {
 		String nome = s.nextLine();
 		
 		try {
-			System.out.println(fachada.consultarProduto(nome));
+			exibirProduto((fachada.consultarProduto(nome)));
 		}
 		catch (NenhumException e) {
 			System.out.println(e.getMessage());
+			exibirMenu();
 		}
 	}
 	public static void finalizarCompra() {
@@ -134,26 +164,25 @@ public class UICompras {
 		String senha = s.next();
 		
 		if(carrinho.getCliente().getSenha().equals(senha)) {
-			carrinho.setDataPedido(new Date());
-			for (Produto p : fachada.listarProdutos()) {
-				for (Item i : carrinho.getListaItem()) {
-					if (i.getProduto().equals(p)){
-						p.setQuantidade(p.getQuantidade() - i.getQuantidade());
-					}
-				}	
+			try {
+				carrinho.setDataPedido(new Date());
+				fachada.addCarrinho(carrinho);
+				for (Item i : carrinho.listarItens()) {
+					fachada.decrementarProduto(i);
+				}
+				fachada.esvaziarCarrinho();
+			}
+			catch (QuantidadeException e) {
+				System.out.println(e.getMessage());
+				exibirCarrinho();
 			}
 			
-			fachada.addCarrinho(carrinho);
-			carrinho.getListaItem().clear();	
-		}
+		}	
 		else {
 			System.out.println("Senha incorreta");
 			return;
-		}
-		
-		
+		}	
 	}
-		
 }
 
 

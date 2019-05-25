@@ -4,6 +4,8 @@ import java.util.List;
 
 import excecoes.ExisteException;
 import excecoes.NenhumException;
+import excecoes.QuantidadeException;
+import model.entities.Item;
 import model.entities.Produto;
 import repositorio.IRepositorioProduto;
 import repositorio.RepositorioProdutoArray;
@@ -26,8 +28,8 @@ public class ControladorProduto implements IControladorProduto {
 	
 	@Override
 	public void cadastrarProduto(Produto p) throws ExisteException {
-		if (repositorioProduto.existeProduto(p.getNome())) {
-			incrementar(p);
+		if (repositorioProduto.existeProduto(p)) {
+			incrementarProduto(p);
 			throw new ExisteException("Produto previamente cadastrado, quantidade incrementada");
 		} else {
 			repositorioProduto.cadastrarProduto(p);
@@ -35,8 +37,23 @@ public class ControladorProduto implements IControladorProduto {
 	}
 	
 	@Override
-	public void incrementar(Produto p) {
-		repositorioProduto.incrementar(p);
+	public void incrementarProduto(Produto p) {
+		repositorioProduto.incrementarProduto(p);
+	}
+	
+	@Override
+	public void decrementarProduto(Item i) throws QuantidadeException{
+		for (Produto p : repositorioProduto.listarProdutos()) {
+			if (p.equals(i.getProduto())) {
+				if (i.getQuantidade() > p.getQuantidade()) {
+					throw new QuantidadeException("Quantidade selecionada maior que a disponível");
+				}
+				else {
+					repositorioProduto.decrementarProduto(i);
+				}
+			}
+		}
+		
 	}
 
 	@Override
@@ -49,8 +66,8 @@ public class ControladorProduto implements IControladorProduto {
 	}
 	
 	@Override
-	public boolean existeProduto(String nome) {
-		if (repositorioProduto.existeProduto(nome)) {
+	public boolean existeProduto(Produto p) {
+		if (repositorioProduto.existeProduto(p)) {
 			return true;
 		}
 		return false;
@@ -73,11 +90,13 @@ public class ControladorProduto implements IControladorProduto {
 
 	@Override
 	public List<Produto> listarProdutos(String categoria) throws NenhumException {
-		if (repositorioProduto.listarProdutos(categoria) == null) {
+		if (repositorioProduto.listarProdutos(categoria).isEmpty()) {
 			throw new NenhumException("Categoria não encontrada");
 		}
 		return repositorioProduto.listarProdutos(categoria);
 	}
+
+	
 
 	
 

@@ -3,6 +3,7 @@ package repositorio;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.entities.Item;
 import model.entities.Produto;
 
 public class RepositorioProdutoArray implements IRepositorioProduto {
@@ -33,9 +34,9 @@ public class RepositorioProdutoArray implements IRepositorioProduto {
 	}
 	
 	@Override
-	public boolean existeProduto(String nome) {
+	public boolean existeProduto(Produto p) {
 		for (Produto produto : listaProduto) {
-			if (produto.getNome().equals(nome)) {
+			if (produto.equals(p)) {
 				return true;
 			}
 		}
@@ -43,12 +44,21 @@ public class RepositorioProdutoArray implements IRepositorioProduto {
 	}
 	
 	@Override
-	public void incrementar(Produto p) {
+	public void incrementarProduto(Produto p) {
 		for (Produto produto : listaProduto) {
 			if (produto.getCategoria().equals(p.getCategoria())) {
 				if (produto.getNome().equals(p.getNome())) {
 					produto.setQuantidade(produto.getQuantidade() + p.getQuantidade());
 				}
+			}
+		}
+	}
+	
+	@Override
+	public void decrementarProduto(Item i) {
+		for (Produto p : listaProduto) {
+			if (p.equals(i.getProduto())){
+				p.setQuantidade(p.getQuantidade() - i.getQuantidade());
 			}
 		}
 	}

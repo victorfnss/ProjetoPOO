@@ -7,17 +7,21 @@ import excecoes.CpfException;
 import excecoes.ExisteException;
 import excecoes.LoginException;
 import excecoes.NenhumException;
+import excecoes.QuantidadeException;
 import model.entities.Cliente;
 import model.entities.Fornecedor;
+import model.entities.Item;
 import model.entities.Produto;
 import repositorio.Carrinho;
 
-public class Fachada implements IControladorCliente, IControladorFornecedor, IControladorCarrinho, IControladorProduto {
+public class Fachada implements IControladorCliente, IControladorFornecedor, 
+IControladorCarrinho, IControladorProduto, IControladorItem  {
 	
 	private IControladorCliente controladorCliente;
 	private IControladorFornecedor controladorFornecedor;
 	private IControladorCarrinho controladorCarrinho;
 	private IControladorProduto controladorProduto;
+	private IControladorItem carrinho;
 	private static Fachada instancia;
 	
 	public static Fachada getInstancia() {
@@ -32,6 +36,7 @@ public class Fachada implements IControladorCliente, IControladorFornecedor, ICo
 		controladorFornecedor = ControladorFornecedor.getInstancia();
 		controladorCarrinho = ControladorCarrinho.getInstancia();
 		controladorProduto = ControladorProduto.getInstancia();
+		carrinho = ControladorItem.getInstancia();
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class Fachada implements IControladorCliente, IControladorFornecedor, ICo
 	}
 
 	@Override
-	public boolean existeFornecedor(String cnpj) {
+	public boolean existeFornecedor(String cnpj) throws CnpjException {
 		if(controladorFornecedor.existeFornecedor(cnpj)) {
 			return true;
 		}
@@ -96,7 +101,7 @@ public class Fachada implements IControladorCliente, IControladorFornecedor, ICo
 	}
 	
 	@Override
-	public List<Fornecedor> listarFornecedor() throws CnpjException {
+	public List<Fornecedor> listarFornecedor() throws NenhumException {
 		return controladorFornecedor.listarFornecedor();
 	}
 
@@ -123,16 +128,21 @@ public class Fachada implements IControladorCliente, IControladorFornecedor, ICo
 	}
 
 	@Override
-	public boolean existeProduto(String nome) {
-		if (controladorProduto.existeProduto(nome)) {
+	public boolean existeProduto(Produto p) {
+		if (controladorProduto.existeProduto(p)) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void incrementar(Produto p) {
-		controladorProduto.incrementar(p);
+	public void incrementarProduto(Produto p) {
+		controladorProduto.incrementarProduto(p);
+	}
+	
+	@Override
+	public void decrementarProduto(Item i) throws QuantidadeException {
+		controladorProduto.decrementarProduto(i);
 	}
 
 	@Override
@@ -148,6 +158,50 @@ public class Fachada implements IControladorCliente, IControladorFornecedor, ICo
 	@Override
 	public List<Produto> listarProdutos(String categoria) throws NenhumException {
 		return controladorProduto.listarProdutos(categoria);
+	}
+
+	@Override
+	public void addItem(Item item) {
+		carrinho.addItem(item);
+		
+	}
+
+	@Override
+	public void removeItem(Item item) {
+		carrinho.removeItem(item);
+		
+	}
+
+	@Override
+	public Item mostrarItem(int position) throws NenhumException {
+		carrinho.mostrarItem(position);
+		return null;
+	}
+
+	@Override
+	public boolean existeItem(Item i) throws ExisteException {
+		return carrinho.existeItem(i);
+	}
+
+	@Override
+	public List<Item> listarItens() throws NenhumException {
+		return carrinho.listarItens();
+	}
+
+	@Override
+	public void alterarQuantidade(Item i, int qtd) throws QuantidadeException {
+		carrinho.alterarQuantidade(i, qtd);
+		
+	}
+
+	@Override
+	public void incrementarItem(Item i, int qtd) throws QuantidadeException {
+		carrinho.incrementarItem(i, qtd);
+		
+	}
+	@Override
+	public void esvaziarCarrinho() {
+		carrinho.esvaziarCarrinho();
 	}
 
 }
