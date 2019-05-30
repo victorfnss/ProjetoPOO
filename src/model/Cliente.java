@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class Cliente extends Pessoa {
 
-	private Integer codigo;
 	private String cpf;
 	private Date dataDeNascimento;
 	private String login;
@@ -13,15 +12,10 @@ public class Cliente extends Pessoa {
 	public Cliente(Integer codigo, String nome, String endereco, String telefone, String cpf, Date dataDeNascimento,
 			String login, String senha) {
 		super(codigo, nome, endereco, telefone);
-		this.codigo = codigo;
 		this.cpf = cpf;
 		this.dataDeNascimento = dataDeNascimento;
 		this.login = login;
 		this.senha = senha;
-	}
-	
-	public Integer getCodigo() {
-		return codigo;
 	}
 
 	public String getCpf() {
@@ -29,11 +23,7 @@ public class Cliente extends Pessoa {
 	}
 	
 	public void setCpf(String cpf) {
-		if (cpf.length() < 11) {
-			this.cpf = null;
-		} else {
 			this.cpf = cpf;
-		}
 	}
 
 	public Date getDataDeNascimento() {

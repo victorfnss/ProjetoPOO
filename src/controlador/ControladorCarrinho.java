@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.List;
 
+import excecoes.NenhumException;
 import repositorio.Carrinho;
 import repositorio.IRepositorioCarrinho;
 import repositorio.RepositorioCarrinhoArray;
@@ -25,7 +26,10 @@ public class ControladorCarrinho implements IControladorCarrinho {
 	}
 	
 	@Override
-	public List<Carrinho> listarCarrinhos() {
+	public List<Carrinho> listarCarrinhos() throws NenhumException {
+		if (repositorioCarrinho.listarCarrinhos().isEmpty()) {
+			throw new NenhumException("Lista vazia");
+		}
 		return repositorioCarrinho.listarCarrinhos();
 	}
 

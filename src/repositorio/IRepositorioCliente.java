@@ -10,7 +10,7 @@ public interface IRepositorioCliente {
 	public void cadastrarCliente(Cliente c);
 	public boolean existeCliente(String cpf);
 	public Cliente consultaCliente(String cpf);
-	public void removerCliente(String login);
+	public void removerCliente(String cpf);
 	public List<Cliente> listarCliente();
 	public List<Cliente> listarCliente(String endereco);
 	

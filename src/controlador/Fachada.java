@@ -63,7 +63,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 	
 	@Override
-	public void removerCliente(String login) throws NenhumException {
+	public void removerCliente(String login) throws CpfException {
 		controladorCliente.removerCliente(login);		
 	}
 
@@ -106,7 +106,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 
 	@Override
-	public List<Carrinho> listarCarrinhos() {
+	public List<Carrinho> listarCarrinhos() throws NenhumException {
 		return controladorCarrinho.listarCarrinhos();
 	}
 
@@ -122,7 +122,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 
 	@Override
-	public void removerProduto(String categoria, String nome) {
+	public void removerProduto(String categoria, String nome) throws NenhumException {
 		controladorProduto.removerProduto(categoria, nome);
 		
 	}
@@ -151,7 +151,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 
 	@Override
-	public List<Produto> listarProdutos() {
+	public List<Produto> listarProdutos() throws NenhumException {
 		return controladorProduto.listarProdutos();
 	}
 

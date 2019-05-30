@@ -36,6 +36,28 @@ public class ControladorProduto implements IControladorProduto {
 		}
 	}
 	
+	
+
+	@Override
+	public void removerProduto(String categoria, String nome) throws NenhumException {
+		for (Produto p : repositorioProduto.listarProdutos(categoria)) {
+			if (!repositorioProduto.existeProduto(p)) {
+				throw new NenhumException("Produto não encontrado");
+			}
+			else {
+				repositorioProduto.removerProduto(p);
+			}
+		}
+	}
+	
+	@Override
+	public boolean existeProduto(Produto p) {
+		if (repositorioProduto.existeProduto(p)) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void incrementarProduto(Produto p) {
 		repositorioProduto.incrementarProduto(p);
@@ -53,24 +75,6 @@ public class ControladorProduto implements IControladorProduto {
 				}
 			}
 		}
-		
-	}
-
-	@Override
-	public void removerProduto(String categoria, String nome) {
-		for (Produto p : repositorioProduto.listarProdutos(categoria)) {
-			if (p.getNome().equals(nome)) {
-				repositorioProduto.removerProduto(p);
-			}
-		}
-	}
-	
-	@Override
-	public boolean existeProduto(Produto p) {
-		if (repositorioProduto.existeProduto(p)) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -83,18 +87,21 @@ public class ControladorProduto implements IControladorProduto {
 	}
 
 	@Override
-	public List<Produto> listarProdutos() {
-		
+	public List<Produto> listarProdutos() throws NenhumException {
+		if (repositorioProduto.listarProdutos().isEmpty()) {
+			throw new NenhumException("Não há produtos cadastrados");
+		}
 		return repositorioProduto.listarProdutos();
 	}
 
 	@Override
 	public List<Produto> listarProdutos(String categoria) throws NenhumException {
 		if (repositorioProduto.listarProdutos(categoria).isEmpty()) {
-			throw new NenhumException("Categoria não encontrada");
+			throw new NenhumException("Não há produtos cadastrados");
 		}
 		return repositorioProduto.listarProdutos(categoria);
 	}
+	
 
 	
 

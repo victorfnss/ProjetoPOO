@@ -40,7 +40,7 @@ public class ControladorItem implements IControladorItem {
 		if (position > carrinho.listarItens().size()) {
 			throw new NenhumException("Digite uma posição válida");
 		}
-		return null;
+		return carrinho.mostrarItem(position);
 	}
 
 	@Override

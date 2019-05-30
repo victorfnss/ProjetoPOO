@@ -61,18 +61,17 @@ public class ControladorCliente implements IControladorCliente {
 	}
 
 	@Override
-	public void removerCliente(String login) throws NenhumException {
-		for (Cliente c : repositorioCliente.listarCliente()) {
-			if (c.getLogin().equals(login)) {
-				repositorioCliente.removerCliente(login);
+	public void removerCliente(String cpf) throws CpfException {
+			if (!repositorioCliente.existeCliente(cpf)) {
+				throw new CpfException("Usuário não encontrado");
 			}
-		}
-		throw new NenhumException("Usuário não encontrado");
+			repositorioCliente.removerCliente(cpf);
+		
 	}
 
 	@Override
 	public List<Cliente> listarCliente() throws NenhumException {
-		if (repositorioCliente.listarCliente() == null) {
+		if (repositorioCliente.listarCliente().isEmpty()) {
 			throw new NenhumException("Nenhum usuário encontrado");
 		}
 		return repositorioCliente.listarCliente();
@@ -81,7 +80,7 @@ public class ControladorCliente implements IControladorCliente {
 
 	@Override
 	public List<Cliente> listarCliente(String endereco) throws NenhumException {
-		if (repositorioCliente.listarCliente(endereco) == null) {
+		if (repositorioCliente.listarCliente(endereco).isEmpty()) {
 			throw new NenhumException("Nenhum usuário encontrado");
 		}
 		return repositorioCliente.listarCliente(endereco);

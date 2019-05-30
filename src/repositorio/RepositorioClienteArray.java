@@ -52,7 +52,7 @@ public class RepositorioClienteArray implements IRepositorioCliente {
 	public Cliente consultaCliente(String cpf) {
 		Cliente consulta = null;
 		for (Cliente c : listaCliente) {
-			if (c.getCpf().equals(cpf)) {
+			if (existeCliente(c.getCpf())) {
 				consulta = c;
 			}
 		}
@@ -60,9 +60,9 @@ public class RepositorioClienteArray implements IRepositorioCliente {
 	}
 
 	@Override
-	public void removerCliente(String login) {
+	public void removerCliente(String cpf) {
 		for (Cliente c : listaCliente) {
-			if (c.getLogin().equals(login)) {
+			if (existeCliente(cpf)) {
 				listaCliente.remove(c);
 				
 			}

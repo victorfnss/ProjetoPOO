@@ -21,6 +21,7 @@ public class UIProduto {
 	static Scanner s = new Scanner(System.in);
 
 	public static void exibirMenu() {
+
 		System.out.println("1 - Cadastrar produto");
 		System.out.println("2 - Remover produto");
 		System.out.println("3 - Consultar produto");
@@ -46,6 +47,7 @@ public class UIProduto {
 
 	public static void cadastrarProduto() {
 		try {
+
 			System.out.print("Código: ");
 			int codigo = s.nextInt();
 			System.out.print("Nome: ");
@@ -63,94 +65,100 @@ public class UIProduto {
 
 			Fornecedor f = fachada.listarFornecedor().stream().filter(x -> x.getCnpj().equals(cnpj)).findFirst()
 					.orElse(null);
-			;
 
-			if (f == null) {
-				try {
-					System.out.print("Código: ");
-					int codigof = s.nextInt();
-					System.out.print("Nome: ");
-					s.nextLine();
-					String nomef = s.nextLine();
-					System.out.print("Nome fantasia: ");
-					String nomeFantasia = s.nextLine();
-					System.out.print("Endereço: ");
-					String enderecof = s.nextLine();
-					System.out.print("Telefone (com DDD): ");
-					String telefonef = s.next();
-					System.out.print("Data de abertura (dd/mm/yyyy): ");
-					Date dataDeAbertura = sdf.parse(s.next());
+			if (f != null) {
 
-					f = new Fornecedor(codigof, nomef, enderecof, telefonef, cnpj, nomeFantasia, dataDeAbertura);
-
-					fachada.cadastrarFornecedor(f);
-					fachada.cadastrarProduto(new Produto(codigo, nome, descricao, f, quantidade, categoria));
-
-				} catch (ParseException e) {
-					System.out.println("Formato de data inválido");
-				} catch (CnpjException e) {
-					System.out.println(e.getMessage());
-				} catch (ExisteException e) {
-					System.out.println(e.getMessage());
-				}
+				fachada.cadastrarFornecedor(f);
+				fachada.cadastrarProduto(new Produto(codigo, nome, descricao, f, quantidade, categoria));
 
 			} else {
-				try {
-					fachada.cadastrarFornecedor(f);
-					fachada.cadastrarProduto(new Produto(codigo, nome, descricao, f, quantidade, categoria));
-				} catch (ExisteException e) {
-					System.out.println(e.getMessage());
-				}
-				catch (CnpjException ex) {
-					System.out.println(ex.getMessage());		
-			}
 
-		} 
+				System.out.print("Código: ");
+				int codigof = s.nextInt();
+				System.out.print("Nome: ");
+				s.nextLine();
+				String nomef = s.nextLine();
+				System.out.print("Nome fantasia: ");
+				String nomeFantasia = s.nextLine();
+				System.out.print("Endereço: ");
+				String enderecof = s.nextLine();
+				System.out.print("Telefone (com DDD): ");
+				String telefonef = s.next();
+				System.out.print("Data de abertura (dd/mm/yyyy): ");
+				Date dataDeAbertura = sdf.parse(s.next());
+
+				f = new Fornecedor(codigof, nomef, enderecof, telefonef, cnpj, nomeFantasia, dataDeAbertura);
+
+				fachada.cadastrarFornecedor(f);
+				fachada.cadastrarProduto(new Produto(codigo, nome, descricao, f, quantidade, categoria));
+
+			}
+		} catch (ExisteException e) {
+			System.out.println(e.getMessage());
+		} catch (CnpjException ex) {
+			System.out.println(ex.getMessage());
+		} catch (ParseException e) {
+			System.out.println("Formato de data inválido");
+
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	public static void removerProduto() {
-		System.out.println("Digite os dados do produto a ser removido");
-		System.out.print("Categoria: ");
-		s.nextLine();
-		String categoria = s.nextLine();
-		System.out.print("Nome: ");
-		String nome = s.nextLine();
 
-		fachada.removerProduto(categoria, nome);
+		try {
+			System.out.println("Digite os dados do produto a ser removido");
+			System.out.print("Categoria: ");
+			s.nextLine();
+			String categoria = s.nextLine();
+			System.out.print("Nome: ");
+			String nome = s.nextLine();
+
+			fachada.removerProduto(categoria, nome);
+		} catch (NenhumException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public static void consultarProduto() {
-		System.out.print("Nome: ");
-		s.nextLine();
-		String nome = s.nextLine();
 
 		try {
-			fachada.consultarProduto(nome);
+			System.out.print("Nome: ");
+			s.nextLine();
+			String nome = s.nextLine();
+
+			System.out.println(fachada.consultarProduto(nome));
+
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	public static void listarProdutos() {
+
 		System.out.println("1 - listar todos os produtos");
 		System.out.println("2 - listar produtos por categoria");
 
 		int op = s.nextInt();
 
 		if (op == 1) {
-			for (Produto p : fachada.listarProdutos()) {
-				System.out.println(p);
-			}
-		} else if (op == 2) {
-			System.out.print("Categoria: ");
-			s.nextLine();
-			String categoria = s.nextLine();
-
 			try {
+				for (Produto p : fachada.listarProdutos()) {
+					System.out.println(p);	
+				}
+			}
+			catch (NenhumException e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		else if (op == 2) {
+			try {
+				System.out.print("Categoria: ");
+				s.nextLine();
+				String categoria = s.nextLine();
+
 				for (Produto p : fachada.listarProdutos(categoria)) {
 					System.out.println(p);
 				}

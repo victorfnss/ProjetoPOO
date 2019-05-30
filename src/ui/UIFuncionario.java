@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import controlador.Fachada;
 import excecoes.LoginException;
+import excecoes.NenhumException;
 import model.Funcionario;
 
 public class UIFuncionario {
@@ -33,7 +34,7 @@ public class UIFuncionario {
 		System.out.println("Escolha a seção desejada");
 		System.out.println("1 - Produtos");
 		System.out.println("2 - Clientes");
-		System.out.println("3 - Carrinhos de compras");
+		System.out.println("3 - Listar carrinhos de compras");
 		System.out.println("4 - Fornecedores");
 		
 		int op = s.nextInt();
@@ -46,14 +47,19 @@ public class UIFuncionario {
 			UIControleCliente.exibirMenu();
 			break;
 		case 3:
-			fachada.listarCarrinhos();
+			try {
+				fachada.listarCarrinhos();
+			} 
+			catch (NenhumException e) {
+				System.out.println(e.getMessage());
+			}
 			break;
 		case 4:
 			UIFornecedor.exibirMenu();
 			break;
 		default:
 			System.out.println("Opção inválida");
-			break;
+			return;
 		}
 	}
 

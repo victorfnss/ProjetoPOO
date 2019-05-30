@@ -38,7 +38,7 @@ public class UIControleCliente {
 			String login = s.next();
 			fachada.removerCliente(login);
 		}
-		catch (NenhumException e) {
+		catch (CpfException e) {
 			System.out.println(e.getMessage());
 		}
 	}
