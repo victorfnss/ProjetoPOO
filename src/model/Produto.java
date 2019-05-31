@@ -66,12 +66,14 @@ public class Produto {
 	public String toString() {
 		return 	nome
 				+"\n"
+				+descricao
+				+"\n"
 				+"Quantidade em estoque: "
 				+quantidade
 				+"\nCategoria: "
 				+categoria
 				+"\nFornecedor: "
-				+fornecedor.getNome();
+				+fornecedor.getNomeFantasia();
 				
 	}
 	

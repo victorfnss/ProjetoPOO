@@ -34,9 +34,9 @@ public class RepositorioProdutoArray implements IRepositorioProduto {
 	}
 	
 	@Override
-	public boolean existeProduto(Produto p) {
-		for (Produto produto : listaProduto) {
-			if (produto.getNome().equals(p.getNome())) {
+	public boolean existeProduto(String nome) {
+		for (Produto p : listaProduto) {
+			if (p.getNome().equals(nome)) {
 				return true;
 			}
 		}
@@ -45,11 +45,11 @@ public class RepositorioProdutoArray implements IRepositorioProduto {
 	
 	@Override
 	public void incrementarProduto(Produto p) {
-		for (Produto produto : listaProduto) {
+		/*for (Produto produto : listaProduto) {
 			if (existeProduto(p)) {
 				produto.setQuantidade(produto.getQuantidade() + p.getQuantidade());
 			}
-		}
+		}*/
 	}
 	
 	@Override

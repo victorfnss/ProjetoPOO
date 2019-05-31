@@ -1,5 +1,6 @@
 package controlador;
 
+import java.text.ParseException;
 import java.util.List;
 
 import excecoes.CnpjException;
@@ -26,7 +27,7 @@ public class ControladorFornecedor implements IControladorFornecedor{
 	
 	
 	@Override
-	public void cadastrarFornecedor(Fornecedor f) throws CnpjException {
+	public void cadastrarFornecedor(Fornecedor f) throws CnpjException, ParseException {
 		if (repositorioFornecedor.existeFornecedor(f.getCnpj())) {
 			throw new CnpjException("Cnpj já cadastrado");
 		}
@@ -42,11 +43,11 @@ public class ControladorFornecedor implements IControladorFornecedor{
 	}
 
 	@Override
-	public Fornecedor consultarFornecedor(String nomeFantasia) throws NenhumException {
-		if (!repositorioFornecedor.existeFornecedor(nomeFantasia)) {
+	public Fornecedor consultarFornecedor(String cnpj) throws NenhumException {
+		if (!repositorioFornecedor.existeFornecedor(cnpj)) {
 			throw new NenhumException("Usuário não encontrado!");
 		}
-		return repositorioFornecedor.consultaFornecedor(nomeFantasia);
+		return repositorioFornecedor.consultaFornecedor(cnpj);
 	}
 	
 

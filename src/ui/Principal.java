@@ -2,9 +2,13 @@ package ui;
 
 import java.util.Scanner;
 
+import util.Util;
+
 public class Principal {
 
 	public static void main(String[] args) {
+		
+		Util.inicializar();
 		
 		Scanner s = new Scanner(System.in);
 	

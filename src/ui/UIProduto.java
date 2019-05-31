@@ -91,17 +91,26 @@ public class UIProduto {
 
 				fachada.cadastrarFornecedor(f);
 				fachada.cadastrarProduto(new Produto(codigo, nome, descricao, f, quantidade, categoria));
-
+				
+				System.out.println();
+				exibirMenu();
 			}
 		} catch (ExisteException e) {
 			System.out.println(e.getMessage());
+			System.out.println();
+			exibirMenu();
 		} catch (CnpjException ex) {
 			System.out.println(ex.getMessage());
+			System.out.println();
+			exibirMenu();
 		} catch (ParseException e) {
 			System.out.println("Formato de data inválido");
-
+			System.out.println();
+			exibirMenu();
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
+			System.out.println();
+			exibirMenu();
 		}
 	}
 
@@ -116,8 +125,12 @@ public class UIProduto {
 			String nome = s.nextLine();
 
 			fachada.removerProduto(categoria, nome);
+			System.out.println();
+			exibirMenu();
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
+			System.out.println();
+			exibirMenu();
 		}
 	}
 
@@ -129,9 +142,14 @@ public class UIProduto {
 			String nome = s.nextLine();
 
 			System.out.println(fachada.consultarProduto(nome));
+			
+			System.out.println();
+			exibirMenu();
 
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
+			System.out.println();
+			exibirMenu();
 		}
 	}
 
@@ -145,11 +163,16 @@ public class UIProduto {
 		if (op == 1) {
 			try {
 				for (Produto p : fachada.listarProdutos()) {
-					System.out.println(p);	
+					System.out.println("Produto #" + p.getCodigo() + ": " + p);
+					
 				}
+				System.out.println();
+				exibirMenu();
 			}
 			catch (NenhumException e) {
 				System.out.println(e.getMessage());
+				System.out.println();
+				exibirMenu();
 			}
 			
 		}
@@ -160,13 +183,20 @@ public class UIProduto {
 				String categoria = s.nextLine();
 
 				for (Produto p : fachada.listarProdutos(categoria)) {
-					System.out.println(p);
+					System.out.println("Produto #" + p.getCodigo() + ": " + p);
+					
 				}
+				System.out.println();
+				exibirMenu();
 			} catch (NenhumException e) {
 				System.out.println(e.getMessage());
+				System.out.println();
+				exibirMenu();
 			}
 		} else {
 			System.out.println("Opção inválida");
+			System.out.println();
+			exibirMenu();
 		}
 	}
 }

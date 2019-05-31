@@ -1,5 +1,6 @@
 package controlador;
 
+import java.text.ParseException;
 import java.util.List;
 
 import excecoes.CnpjException;
@@ -78,7 +79,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 
 	@Override
-	public void cadastrarFornecedor(Fornecedor f) throws CnpjException {
+	public void cadastrarFornecedor(Fornecedor f) throws CnpjException, ParseException, ParseException {
 		controladorFornecedor.cadastrarFornecedor(f);		
 	}
 
@@ -91,8 +92,8 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 	
 	@Override
-	public Fornecedor consultarFornecedor(String nomeFantasia) throws NenhumException {
-		return controladorFornecedor.consultarFornecedor(nomeFantasia);
+	public Fornecedor consultarFornecedor(String cnpj) throws NenhumException {
+		return controladorFornecedor.consultarFornecedor(cnpj);
 	}
 
 	@Override
@@ -128,8 +129,8 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 
 	@Override
-	public boolean existeProduto(Produto p) {
-		if (controladorProduto.existeProduto(p)) {
+	public boolean existeProduto(String nome) {
+		if (controladorProduto.existeProduto(nome)) {
 			return true;
 		}
 		return false;

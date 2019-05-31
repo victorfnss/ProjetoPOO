@@ -17,6 +17,10 @@ public class Cliente extends Pessoa {
 		this.login = login;
 		this.senha = senha;
 	}
+	
+	public Cliente() {
+		super();
+	}
 
 	public String getCpf() {
 		return cpf;
@@ -33,6 +37,10 @@ public class Cliente extends Pessoa {
 	public String getLogin() {
 		return login;
 	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
 	public String getSenha() {
 		return senha;
@@ -47,6 +55,8 @@ public class Cliente extends Pessoa {
 		return "Cliente #"
 				+super.getCodigo()
 				+" "
-				+super.getNome();
+				+super.getNome()
+				+ " cpf: "
+				+cpf;
 	}
 }

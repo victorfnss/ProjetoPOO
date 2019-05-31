@@ -1,6 +1,8 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -28,11 +30,26 @@ public class UICompras {
 	public static void exibirMenu() {
 
 		try {
-			Random random = new Random(fachada.listarProdutos().size());
-			Produto[] produtos = new Produto[5];
+			//Random random = new Random(fachada.listarProdutos().size());
+			List<Produto> randoma = new ArrayList<Produto>();
+			
+			Random indice = new Random();
+			
+			for (Produto p : fachada.listarProdutos()) {
+				randoma.add(p);
+			}
+			
+			//Produto[] produtos = new Produto[5];
+			List<Produto> aleatorio = new ArrayList<>();
 			for (int i = 0; i < 5; i++) {
-				produtos[i] = fachada.listarProdutos().get(random.nextInt());
-				System.out.println((i + 1) + " - " + produtos[i]);
+			
+				int random = indice.nextInt(randoma.size());
+				aleatorio.add(randoma.get(random));
+				randoma.remove(random);
+			}
+			for (int i = 0; i < 5; i++) {
+			
+				System.out.println("#" + i + " " + aleatorio.get(i).getNome());
 			}
 
 			System.out.println("9 - Pesquisar produto");
@@ -41,19 +58,24 @@ public class UICompras {
 
 			switch (op) {
 			case 1:
-				exibirProduto(produtos[0]);
+				exibirProduto(aleatorio.get(1));
+				//exibirProduto(produtos[0]);
 				break;
 			case 2:
-				exibirProduto(produtos[1]);
+				exibirProduto(aleatorio.get(2));
+				//exibirProduto(produtos[1]);
 				break;
 			case 3:
-				exibirProduto(produtos[2]);
+				exibirProduto(aleatorio.get(3));
+				//exibirProduto(produtos[2]);
 				break;
 			case 4:
-				exibirProduto(produtos[3]);
+				exibirProduto(aleatorio.get(4));
+				//exibirProduto(produtos[3]);
 				break;
 			case 5:
-				exibirProduto(produtos[4]);
+				exibirProduto(aleatorio.get(5));
+				//exibirProduto(produtos[4]);
 				break;
 			case 0:
 				exibirCarrinho();
@@ -97,12 +119,12 @@ public class UICompras {
 			}
 
 			int op = s.nextInt();
-			
+
 			switch (op) {
 			case 0:
 				System.out.print("Quantidade :");
 				int qtd = s.nextInt();
-				
+
 				Item i = new Item((carrinho.listarItens().size() + 1), qtd, p);
 
 				if (fachada.existeItem(i)) {
@@ -183,26 +205,27 @@ public class UICompras {
 			String senha = s.next();
 
 			if (carrinho.getCliente().getSenha().equals(senha)) {
-					
-					carrinho.setDataPedido(new Date());
-					fachada.addCarrinho(carrinho);
-					
-					for (Item i : carrinho.listarItens()) {
-						
-						fachada.decrementarProduto(i);
-					}
-					
-					fachada.esvaziarCarrinho();
-		} else {
-			System.out.println("Senha incorreta");
-			return;
-		}
-		} catch (QuantidadeException e) {
-				System.out.println(e.getMessage());
-				exibirCarrinho();
-			}
 
-		} 
-		
-	
+				carrinho.setDataPedido(new Date());
+				fachada.addCarrinho(carrinho);
+
+				for (Item i : fachada.listarItens()) {
+
+					fachada.decrementarProduto(i);
+				}
+
+				fachada.esvaziarCarrinho();
+			} else {
+				System.out.println("Senha incorreta");
+				return;
+			}
+		} catch (QuantidadeException e) {
+			System.out.println(e.getMessage());
+			exibirCarrinho();
+		} catch (NenhumException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
 }

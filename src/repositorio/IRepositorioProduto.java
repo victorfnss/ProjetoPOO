@@ -9,7 +9,7 @@ public interface IRepositorioProduto {
 
 	public void cadastrarProduto(Produto p);
 	public void removerProduto(Produto p);
-	public boolean existeProduto(Produto p);
+	public boolean existeProduto(String nome);
 	public void incrementarProduto(Produto p);
 	public void decrementarProduto(Item i);
 	public Produto consultarProduto(String nome);

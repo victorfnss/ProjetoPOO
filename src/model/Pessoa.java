@@ -14,6 +14,9 @@ public abstract class Pessoa {
 		this.telefone = telefone;
 	}
 
+	public Pessoa() {
+	}
+
 	public Integer getCodigo() {
 		return codigo;
 	}

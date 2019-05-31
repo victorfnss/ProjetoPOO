@@ -14,63 +14,64 @@ public class ControladorProduto implements IControladorProduto {
 
 	private IRepositorioProduto repositorioProduto;
 	private static ControladorProduto instancia;
-	
+
 	protected static ControladorProduto getInstancia() {
 		if (instancia == null) {
 			instancia = new ControladorProduto();
 		}
 		return instancia;
 	}
-	
+
 	private ControladorProduto() {
 		repositorioProduto = RepositorioProdutoArray.getInstancia();
 	}
-	
+
 	@Override
 	public void cadastrarProduto(Produto p) throws ExisteException {
-		if (repositorioProduto.existeProduto(p)) {
+		if (repositorioProduto.existeProduto(p.getNome())) {
 			incrementarProduto(p);
 			throw new ExisteException("Produto previamente cadastrado, quantidade incrementada");
 		} else {
 			repositorioProduto.cadastrarProduto(p);
 		}
 	}
-	
-	
 
 	@Override
 	public void removerProduto(String categoria, String nome) throws NenhumException {
-		for (Produto p : repositorioProduto.listarProdutos(categoria)) {
-			if (!repositorioProduto.existeProduto(p)) {
-				throw new NenhumException("Produto não encontrado");
-			}
-			else {
-				repositorioProduto.removerProduto(p);
-			}
+		if (!repositorioProduto.existeProduto(nome)) {
+			throw new NenhumException("Produto não encontrado");
 		}
+		for (Produto p : repositorioProduto.listarProdutos(categoria)) {
+
+			if (repositorioProduto.existeProduto(nome)) {
+				repositorioProduto.removerProduto(p);
+
+			}
+
+		}
+
 	}
-	
+
 	@Override
-	public boolean existeProduto(Produto p) {
-		if (repositorioProduto.existeProduto(p)) {
+	public boolean existeProduto(String nome) {
+		if (repositorioProduto.existeProduto(nome)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void incrementarProduto(Produto p) {
 		repositorioProduto.incrementarProduto(p);
 	}
-	
+
 	@Override
-	public void decrementarProduto(Item i) throws QuantidadeException{
+	public void decrementarProduto(Item i) throws QuantidadeException {
 		for (Produto p : repositorioProduto.listarProdutos()) {
 			if (p.equals(i.getProduto())) {
 				if (i.getQuantidade() > p.getQuantidade()) {
 					throw new QuantidadeException("Quantidade selecionada maior que a disponível");
-				}
-				else {
+				} else {
 					repositorioProduto.decrementarProduto(i);
 				}
 			}
@@ -83,7 +84,7 @@ public class ControladorProduto implements IControladorProduto {
 			throw new NenhumException("Produto não encontrado!");
 		}
 		return repositorioProduto.consultarProduto(nome);
-		
+
 	}
 
 	@Override
@@ -101,12 +102,5 @@ public class ControladorProduto implements IControladorProduto {
 		}
 		return repositorioProduto.listarProdutos(categoria);
 	}
-	
-
-	
-
-	
-
-	
 
 }

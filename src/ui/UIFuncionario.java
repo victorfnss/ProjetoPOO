@@ -6,6 +6,7 @@ import controlador.Fachada;
 import excecoes.LoginException;
 import excecoes.NenhumException;
 import model.Funcionario;
+import repositorio.Carrinho;
 
 public class UIFuncionario {
 	
@@ -48,7 +49,10 @@ public class UIFuncionario {
 			break;
 		case 3:
 			try {
-				fachada.listarCarrinhos();
+				
+				for (Carrinho car: fachada.listarCarrinhos()) {
+					System.out.println("Carrinho #"+ fachada.listarCarrinhos().indexOf(car) + car);
+				}
 			} 
 			catch (NenhumException e) {
 				System.out.println(e.getMessage());

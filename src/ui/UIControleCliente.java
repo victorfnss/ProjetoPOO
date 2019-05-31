@@ -37,9 +37,13 @@ public class UIControleCliente {
 			System.out.print("Login do usuário a ser removido: ");
 			String login = s.next();
 			fachada.removerCliente(login);
+			System.out.println();
+			exibirMenu();
 		}
 		catch (CpfException e) {
 			System.out.println(e.getMessage());
+			System.out.println();
+			exibirMenu();
 		}
 	}
 	
@@ -48,9 +52,11 @@ public class UIControleCliente {
 			System.out.print("Cpf do cliente a ser consultado: ");
 			String cpf = s.next();
 			System.out.println(fachada.consultaCliente(cpf));
+			System.out.println();
 		} 
 		catch (CpfException e) {
 			System.out.println(e.getMessage());
+			System.out.println();
 		}
 	}
 
@@ -64,6 +70,8 @@ public class UIControleCliente {
 				for (Cliente c :fachada.listarCliente()) {
 					System.out.println(c);
 				}
+				System.out.println();
+				exibirMenu();
 			}
 			if (op ==2) {
 				System.out.print("Endereço: ");
@@ -72,6 +80,8 @@ public class UIControleCliente {
 				for (Cliente c : fachada.listarCliente(endereco)) {
 					System.out.println(c);
 				}
+				System.out.println();
+				exibirMenu();
 			}
 		}
 		catch (NenhumException e) {

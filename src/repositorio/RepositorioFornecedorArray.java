@@ -38,11 +38,11 @@ public class RepositorioFornecedorArray implements IRepositorioFornecedor{
 	}
 
 	@Override
-	public Fornecedor consultaFornecedor(String nomeFantasia) {
+	public Fornecedor consultaFornecedor(String cnpj) {
 		Fornecedor consulta = null;
 		
 		for (Fornecedor f : listaFornecedor) {
-			if (f.getNomeFantasia().equals(nomeFantasia)) {
+			if (f.getCnpj().equals(cnpj)) {
 				consulta = f;
 			}
 		}
