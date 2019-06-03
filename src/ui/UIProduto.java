@@ -26,6 +26,7 @@ public class UIProduto {
 		System.out.println("2 - Remover produto");
 		System.out.println("3 - Consultar produto");
 		System.out.println("4 - Listar produtos");
+		System.out.println("5 - Voltar");
 
 		int op = s.nextInt();
 
@@ -42,6 +43,12 @@ public class UIProduto {
 		case 4:
 			listarProdutos();
 			break;
+		case 5:
+			UIFuncionario.menuFuncionario();
+			break;
+		default:
+			System.out.println("Opção inválida!");
+			exibirMenu();
 		}
 	}
 

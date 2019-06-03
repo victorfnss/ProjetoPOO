@@ -17,6 +17,7 @@ public class UIControleCliente {
 		System.out.println("1 - Remover cliente");
 		System.out.println("2 - Consultar cliente");
 		System.out.println("3 - Listar clientes");
+		System.out.println("4 - Voltar");
 		
 		int op = s.nextInt();
 		
@@ -30,6 +31,13 @@ public class UIControleCliente {
 		case 3:
 			listarCliente();
 			break;
+		case 4:
+			UIFuncionario.menuFuncionario();
+			break;
+			default:
+				System.out.println("Opção inválida");
+				System.out.println();
+				exibirMenu();
 		}
 	}
 	public static void removerCliente() {
@@ -53,10 +61,12 @@ public class UIControleCliente {
 			String cpf = s.next();
 			System.out.println(fachada.consultaCliente(cpf));
 			System.out.println();
+			exibirMenu();
 		} 
 		catch (CpfException e) {
 			System.out.println(e.getMessage());
 			System.out.println();
+			exibirMenu();
 		}
 	}
 

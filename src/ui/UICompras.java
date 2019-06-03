@@ -49,7 +49,7 @@ public class UICompras {
 			}
 			for (int i = 0; i < 5; i++) {
 			
-				System.out.println("#" + i + " " + aleatorio.get(i).getNome());
+				System.out.println("#" + (i+1) + " " + aleatorio.get(i).getNome());
 			}
 
 			System.out.println("9 - Pesquisar produto");
@@ -58,23 +58,23 @@ public class UICompras {
 
 			switch (op) {
 			case 1:
-				exibirProduto(aleatorio.get(1));
+				exibirProduto(aleatorio.get(0));
 				//exibirProduto(produtos[0]);
 				break;
 			case 2:
-				exibirProduto(aleatorio.get(2));
+				exibirProduto(aleatorio.get(1));
 				//exibirProduto(produtos[1]);
 				break;
 			case 3:
-				exibirProduto(aleatorio.get(3));
+				exibirProduto(aleatorio.get(2));
 				//exibirProduto(produtos[2]);
 				break;
 			case 4:
-				exibirProduto(aleatorio.get(4));
+				exibirProduto(aleatorio.get(3));
 				//exibirProduto(produtos[3]);
 				break;
 			case 5:
-				exibirProduto(aleatorio.get(5));
+				exibirProduto(aleatorio.get(4));
 				//exibirProduto(produtos[4]);
 				break;
 			case 0:
@@ -102,17 +102,20 @@ public class UICompras {
 			int aux = 0;
 			Produto[] relacionados = new Produto[3];
 
-			for (Carrinho c : fachada.listarCarrinhos()) {
-				for (int i = 0; i < fachada.listarCarrinhos().size(); i++) {
-					if (c.listarItens().get(i).getProduto().equals(p)) {
-						relacionados[aux] = p;
-						aux++;
-						if (aux == 2) {
-							break;
+			// for (Carrinho c : fachada.listarCarrinhos()) {
+				for (int j = 0; j < fachada.listarCarrinhos().size(); j++) {
+					for (Item i : fachada.listarCarrinhos().get(j).listarItens()) {
+						if (i.getProduto().equals(p)) {
+							relacionados[aux] = p;
+							aux++;
+							if (aux == 2) {
+								break;
+					}
+					
 						}
 					}
 				}
-			}
+			// }
 
 			for (int i = 0; i < relacionados.length; i++) {
 				System.out.println(relacionados[i]);
@@ -125,7 +128,7 @@ public class UICompras {
 				System.out.print("Quantidade :");
 				int qtd = s.nextInt();
 
-				Item i = new Item((carrinho.listarItens().size() + 1), qtd, p);
+				Item i = new Item((fachada.tamanho()), qtd, p);
 
 				if (fachada.existeItem(i)) {
 					fachada.incrementarItem(i, qtd);
@@ -177,10 +180,10 @@ public class UICompras {
 
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
-			return;
+			exibirMenu();
 		} catch (QuantidadeException e) {
 			System.out.println(e.getMessage());
-			return;
+			exibirMenu();
 		}
 	}
 
@@ -217,13 +220,14 @@ public class UICompras {
 				fachada.esvaziarCarrinho();
 			} else {
 				System.out.println("Senha incorreta");
-				return;
+				finalizarCompra();
 			}
 		} catch (QuantidadeException e) {
 			System.out.println(e.getMessage());
 			exibirCarrinho();
 		} catch (NenhumException e) {
 			System.out.println(e.getMessage());
+			exibirCarrinho();
 		}
 
 	}

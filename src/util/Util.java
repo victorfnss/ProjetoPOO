@@ -19,7 +19,7 @@ public class Util {
 
 	private static Fachada fachada = Fachada.getInstancia();
 
-	private static Carrinho carrinho = Carrinho.getInstancia();
+	
 
 	public static void inicializar() {
 
@@ -64,23 +64,30 @@ public class Util {
 			fachada.cadastrarProduto(p8);
 			Produto p9 = new Produto(10, "Xiaomi", "Xiaomi Redmi Note 7", f, 1000, "celulares");
 			fachada.cadastrarProduto(p9);
-
-			Item i = new Item(1, 4, p);
-			Item i1 = new Item(2, 54, p1);
-			Item i2 = new Item(3, 76, p2);
-			Item i3 = new Item(4, 80, p3);
-			Item i4 = new Item(5, 90, p4);
-			Item i5 = new Item(6, 50, p5);
-			Item i6 = new Item(7, 20, p6);
-
+			
+			fachada.addCarrinho(Carrinho.getInstancia());
+			
+			Item i = new Item(fachada.tamanho(), 4, p);
 			fachada.addItem(i);
+			Item i1 = new Item(fachada.tamanho(), 54, p1);
+			Item i2 = new Item(fachada.tamanho(), 76, p2);
 			fachada.addItem(i2);
+			Item i3 = new Item(fachada.tamanho(), 80, p3);
 			fachada.addItem(i3);
+			Item i4 = new Item(fachada.tamanho(), 90, p4);
 			fachada.addItem(i4);
+			Item i5 = new Item(fachada.tamanho(), 50, p5);
+			Item i6 = new Item(fachada.tamanho(), 20, p6);
 
-			carrinho.setDataPedido(new Date());
-			carrinho.setCliente(c);
-			fachada.addCarrinho(carrinho);
+			
+			
+			
+			
+			fachada.setCliente(c);
+			fachada.setDataPedido(new Date());
+			// carrinho.setDataPedido(new Date());
+			// carrinho.setCliente(c);
+			// fachada.addCarrinho(carrinho);
 			for (Item item : fachada.listarItens()) {
 				fachada.decrementarProduto(item);
 			}

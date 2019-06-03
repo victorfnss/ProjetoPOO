@@ -25,6 +25,7 @@ public class UIFornecedor {
 		System.out.println("2 - Remover fornecedor");
 		System.out.println("3 - Consultar fornecedor");
 		System.out.println("4 - Listar fornecedores");
+		System.out.println("5 - Voltar");
 
 		int op = s.nextInt();
 
@@ -41,9 +42,11 @@ public class UIFornecedor {
 		case 4:
 			listarFornecedores();
 			break;
+		case 5:
+			UIFuncionario.menuFuncionario();
 		default:
 			System.out.println("Opção inválida");
-			return;
+			exibirMenu();
 
 		}
 	}

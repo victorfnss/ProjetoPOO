@@ -14,7 +14,7 @@ public class UIFuncionario {
 	
 	private static Fachada fachada = Fachada.getInstancia();
 	
-	public static void exibirMenu() {
+	public static void login() {
 		try {
 			System.out.print("login: ");
 			String login = s.next();
@@ -51,13 +51,15 @@ public class UIFuncionario {
 			try {
 				
 				for (Carrinho car: fachada.listarCarrinhos()) {
-					System.out.println("Carrinho #"+ fachada.listarCarrinhos().indexOf(car) + car);
+					System.out.println("Carrinho #"+ (fachada.listarCarrinhos().indexOf(car)+1) +"\n" + car);
 				}
 			} 
 			catch (NenhumException e) {
 				System.out.println(e.getMessage());
+				menuFuncionario();
 			}
-			break;
+			System.out.println();
+			menuFuncionario();
 		case 4:
 			UIFornecedor.exibirMenu();
 			break;

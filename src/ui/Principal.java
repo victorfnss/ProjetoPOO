@@ -27,7 +27,7 @@ public class Principal {
 				UICliente.exibirMenuCliente();
 				break;
 			case 2:
-				UIFuncionario.exibirMenu();
+				UIFuncionario.login();
 				break;
 			default:
 				System.out.println("Opção inválida");

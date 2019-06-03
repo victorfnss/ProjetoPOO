@@ -1,5 +1,6 @@
 package repositorio;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,9 @@ import model.Cliente;
 import model.Item;
 
 public class Carrinho implements IRepositorioItem {
+	
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
+	
 	private Cliente cliente;
 	private Date dataPedido;
 	private List<Item> listaItem;
@@ -28,13 +32,15 @@ public class Carrinho implements IRepositorioItem {
 	public Cliente getCliente() {
 		return cliente;
 	}
-
+	@Override
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 	public Date getDataPedido() {
 		return dataPedido;
 	}
+	
+	@Override
 	public void setDataPedido(Date dataPedido) {
 		this.dataPedido = dataPedido;
 	}
@@ -81,11 +87,22 @@ public class Carrinho implements IRepositorioItem {
 	}
 	@Override
 	public void incrementarItem(Item i, int qtd) {
-		i.setQuantidade(i.getQuantidade()+qtd);
+		for (Item item : listaItem) {
+			if (item.getProduto().equals(i.getProduto())) {
+				item.setQuantidade(item.getQuantidade() + i.getQuantidade());
+			}
+		}
+		
+	}
+	
+	public int tamanho() {
+		
+		return listaItem.size() + 1;
 	}
 	@Override
 	public void esvaziarCarrinho() {
-			instancia = new Carrinho();
+		instancia = new Carrinho();	
+		listaItem.clear();
 	}
 	@Override
 	public String toString() {
@@ -94,7 +111,7 @@ public class Carrinho implements IRepositorioItem {
 		for (Item i : listaItem) {
 			sb.append(i + "\n");
 		}
-		sb.append(dataPedido);
+		sb.append(sdf.format(dataPedido));
 		return sb.toString();
 	}
 	

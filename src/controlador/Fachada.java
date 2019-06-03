@@ -1,6 +1,7 @@
 package controlador;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import excecoes.CnpjException;
@@ -15,23 +16,23 @@ import model.Item;
 import model.Produto;
 import repositorio.Carrinho;
 
-public class Fachada implements IControladorCliente, IControladorFornecedor, 
-IControladorCarrinho, IControladorProduto, IControladorItem  {
-	
+public class Fachada implements IControladorCliente, IControladorFornecedor, IControladorCarrinho, IControladorProduto,
+		IControladorItem {
+
 	private IControladorCliente controladorCliente;
 	private IControladorFornecedor controladorFornecedor;
 	private IControladorCarrinho controladorCarrinho;
 	private IControladorProduto controladorProduto;
 	private IControladorItem carrinho;
 	private static Fachada instancia;
-	
+
 	public static Fachada getInstancia() {
 		if (instancia == null) {
 			instancia = new Fachada();
 		}
 		return instancia;
 	}
-	
+
 	private Fachada() {
 		controladorCliente = ControladorCliente.getInstancia();
 		controladorFornecedor = ControladorFornecedor.getInstancia();
@@ -44,15 +45,15 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	public Cliente login(String login, String senha) throws LoginException {
 		return controladorCliente.login(login, senha);
 	}
-	
+
 	@Override
 	public void cadastrarCliente(Cliente c) throws CpfException {
-		controladorCliente.cadastrarCliente(c);		
+		controladorCliente.cadastrarCliente(c);
 	}
 
 	@Override
 	public boolean existeCliente(String cpf) {
-		if(controladorCliente.existeCliente(cpf)) {
+		if (controladorCliente.existeCliente(cpf)) {
 			return true;
 		}
 		return false;
@@ -62,10 +63,10 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	public Cliente consultaCliente(String cpf) throws CpfException {
 		return controladorCliente.consultaCliente(cpf);
 	}
-	
+
 	@Override
 	public void removerCliente(String login) throws CpfException {
-		controladorCliente.removerCliente(login);		
+		controladorCliente.removerCliente(login);
 	}
 
 	@Override
@@ -80,17 +81,17 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 
 	@Override
 	public void cadastrarFornecedor(Fornecedor f) throws CnpjException, ParseException, ParseException {
-		controladorFornecedor.cadastrarFornecedor(f);		
+		controladorFornecedor.cadastrarFornecedor(f);
 	}
 
 	@Override
 	public boolean existeFornecedor(String cnpj) throws CnpjException {
-		if(controladorFornecedor.existeFornecedor(cnpj)) {
+		if (controladorFornecedor.existeFornecedor(cnpj)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public Fornecedor consultarFornecedor(String cnpj) throws NenhumException {
 		return controladorFornecedor.consultarFornecedor(cnpj);
@@ -100,7 +101,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	public void removerFornecedor(String cnpj) throws NenhumException {
 		controladorFornecedor.removerFornecedor(cnpj);
 	}
-	
+
 	@Override
 	public List<Fornecedor> listarFornecedor() throws NenhumException {
 		return controladorFornecedor.listarFornecedor();
@@ -114,7 +115,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	@Override
 	public void addCarrinho(Carrinho car) {
 		controladorCarrinho.addCarrinho(car);
-		
+
 	}
 
 	@Override
@@ -125,7 +126,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	@Override
 	public void removerProduto(String categoria, String nome) throws NenhumException {
 		controladorProduto.removerProduto(categoria, nome);
-		
+
 	}
 
 	@Override
@@ -140,7 +141,7 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	public void incrementarProduto(Produto p) {
 		controladorProduto.incrementarProduto(p);
 	}
-	
+
 	@Override
 	public void decrementarProduto(Item i) throws QuantidadeException {
 		controladorProduto.decrementarProduto(i);
@@ -162,15 +163,15 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	}
 
 	@Override
-	public void addItem(Item item) {
+	public void addItem(Item item) throws ExisteException, QuantidadeException {
 		carrinho.addItem(item);
-		
+
 	}
 
 	@Override
 	public void removeItem(Item item) {
 		carrinho.removeItem(item);
-		
+
 	}
 
 	@Override
@@ -192,17 +193,31 @@ IControladorCarrinho, IControladorProduto, IControladorItem  {
 	@Override
 	public void alterarQuantidade(Item i, int qtd) throws QuantidadeException {
 		carrinho.alterarQuantidade(i, qtd);
-		
+
 	}
 
 	@Override
 	public void incrementarItem(Item i, int qtd) throws QuantidadeException {
 		carrinho.incrementarItem(i, qtd);
-		
 	}
+
+	public int tamanho() {
+		return carrinho.tamanho();
+	}
+
 	@Override
 	public void esvaziarCarrinho() {
 		carrinho.esvaziarCarrinho();
+	}
+
+	@Override
+	public void setCliente(Cliente cliente) {
+		carrinho.setCliente(cliente);
+	}
+
+	@Override
+	public void setDataPedido(Date dataPedido) {
+		carrinho.setDataPedido(dataPedido);
 	}
 
 }

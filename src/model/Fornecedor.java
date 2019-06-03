@@ -1,8 +1,11 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Fornecedor extends Pessoa {
+	
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private String cnpj;
 	private String nomeFantasia;
@@ -39,7 +42,15 @@ public class Fornecedor extends Pessoa {
 				+" "
 				+nomeFantasia
 				+", "
-				+cnpj;
+				+cnpj
+				+"\n"
+				+super.getNome()
+				+", data de abertura: "
+				+sdf.format(dataDeAbertura)
+				+"\n"
+				+super.getEndereco()
+				+", "
+				+super.getTelefone();
 	}
 	
 	

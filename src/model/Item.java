@@ -41,7 +41,9 @@ public class Item {
 		return "item "
 				+codigo
 				+"\n"
-				+produto
+				+produto.getNome()
+				+", "
+				+produto.getDescricao()
 				+"\nQuantidade selecionada: "
 				+quantidade;
 	}

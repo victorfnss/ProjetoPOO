@@ -83,9 +83,11 @@ public class UICliente {
 		
 		catch (ParseException e) {
 			System.out.println("Invalid date format");
+			cadastrarCliente();
 		}
 		catch (CpfException e) {
 			System.out.println(e.getMessage());
+			cadastrarCliente();
 		} 
 		catch (NenhumException e) {
 		System.out.println(e.getMessage());
